@@ -127,7 +127,3 @@ Category: Cybersecurity / NLP
 - GitHub Actions bot
 
 ---
-
-## 📬 Contact
-
-[Your Name] – [your email or LinkedIn]
