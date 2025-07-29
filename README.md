@@ -1,121 +1,83 @@
+# 🔐 DeepTrace-AI: AI-Powered Secret Leak Detector
 
-# 🕵️‍♂️ DeepTrace-AI
-
-**AI-Powered Secret Leak Detector for GitHub Repositories**
-
----
-
-## 🚀 About the Project
-
-Developers often accidentally leak secrets (like AWS keys or DB passwords) in public GitHub repos, which can lead to serious security breaches.
-
-**DeepTrace-AI** solves this by using:
-- 🧠 Regex patterns to detect common secret types (fallback layer)
-- 🤖 Optional CodeBERT AI classifier for better accuracy
-- 📁 GitHub API to scan entire public repositories
-- 🛡️ Suggested remediation steps to fix exposed secrets
+DeepTrace-AI is an advanced Python tool that scans GitHub repositories, files, and URLs for **hardcoded secrets** using both **regex patterns** and **AI-based classification** (CodeBERT).
 
 ---
 
-## 🧠 Tech Stack
+## 🚀 Features
 
-- **Python**
-- 🤗 `transformers` (CodeBERT from HuggingFace)
-- 🔍 `re` for regex scanning
-- 🌐 `requests` for GitHub file access
-- 🧪 Optional: FastAPI, MongoDB, Docker (for expansion)
+- ✅ **Regex + AI detection** for secrets like API keys, tokens, passwords
+- ⚡ Fast scanning with multithreading
+- 🎯 Confidence threshold to reduce false positives
+- 🔍 Scans public GitHub repos using the GitHub API
+- 📂 Supports `.env`, config files, and raw URLs
 
 ---
 
-## ⚙️ Installation
+## 📦 Install Requirements
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/deeptrace-ai.git
-cd deeptrace-ai
-
-# Create virtual env (optional)
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-**requirements.txt:**
-```txt
-torch
-transformers
-requests
+pip install torch transformers requests
 ```
 
 ---
 
-## 🧪 How to Use
+## 🧠 AI Model
 
-### ✅ Option A: Scan a single public `.env` file
+- Uses [CodeBERT (microsoft/codebert-base)](https://huggingface.co/microsoft/codebert-base)
+- Binary classification: Sensitive vs Non-sensitive code lines
+
+---
+
+## 🕹️ How to Use
 
 ```bash
-python deeptrace.py
+python deeptrace_ai_scanner.py
 ```
 
-Default: It scans Laravel’s sample config file.
+Then choose one of the options:
 
-### ✅ Option B: Scan entire public GitHub repo
-
-Uncomment these lines in `deeptrace.py`:
-
-```python
-owner = "laravel"
-repo = "laravel"
-scan_github_repo(owner, repo)
-```
-
-### ✅ Option C: Scan any raw file URL
-
-```bash
-python deeptrace.py
-```
-
-Choose option 3 when prompted.
+1️⃣ Scan Laravel default `.env.example`  
+2️⃣ Scan any GitHub repo recursively  
+3️⃣ Scan a raw file URL
 
 ---
 
-## 📈 Sample Output
+## 🧪 Example Output
 
 ```
-🔍 Scanning .env.example...
-
-⚠️ [Regex] AWS Access Key in .env.example, line 59: AWS_ACCESS_KEY_ID=...
-⚠️ [Regex] Generic Password in .env.example, line 60: DB_PASSWORD=...
-💡 Suggested Fix:
-- Move to .env file or environment variables
-- Add file to .gitignore
-- Rotate credentials
+Scanning file: .env.example ...
+Error [Regex] Generic Password in .env.example, line 15: password=mysecret
+Error [AI] Sensitive line in config.py, line 42: stripe_api_key = "sk_test_..."
+=== Scan Summary ===
+Total files scanned: 5
+Files with sensitive info detected: 2
+Total issues found: 6
+Secure files: 3
 ```
 
 ---
 
-## 🎯 Why It Matters
+## 📚 Supported Secrets (Regex)
 
-Perfect for:
-- ✅ Open source security reviews
-- ✅ CI/CD secret scanning
-- ✅ GitHub Actions integration
-- ✅ Ethical hacking demos
-
----
-
-## 🏆 Built For
-
-**AI Hackathon 2025**  
-By [Your Name]  
-Category: Cybersecurity / NLP
+- AWS Access Keys
+- Google API Keys
+- JWT Secrets
+- Bearer Tokens
+- Database URLs
+- Stripe Keys
+- Private SSH Keys
+- Generic passwords & API keys
 
 ---
 
-## 📈 Future Scope
+## 📜 License
 
-- FastAPI or Streamlit interface
-- Alerts via Slack/Telegram
-- Secret rotation hooks
-- GitHub Actions bot
+MIT License © 2025
+
+---
+
+## 👨‍💻 Author
+
+Dharmik Dudhat  
+Feel free to ⭐ the repo or contribute improvements!
